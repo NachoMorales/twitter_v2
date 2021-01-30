@@ -15,3 +15,4 @@ Pasos:
 6. npm i --save @fortawesome/fontawesome-svg-core
 7. npm install --save @fortawesome/free-solid-svg-icons
 8. npm install --save @fortawesome/react-fontawesome
+9. Create .env.local file with Firebase data
