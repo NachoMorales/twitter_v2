@@ -1,0 +1,19 @@
+{
+  "tweets": [
+    {
+      "body": "Hello world, again",
+      "author": "Nacho",
+      "id": 1
+    },
+    {
+      "body": "Testing",
+      "author": "Pepito",
+      "id": 2
+    },
+    {
+      "body": "asdasdasdsa",
+      "author": "Nacho",
+      "id": 3
+    }
+  ]
+}
