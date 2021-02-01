@@ -16,6 +16,7 @@ export default function EditProfile() {
     const [loading, setLoading] = useState(false);
     const userId = currentUser.uid
     const [profileInfo, setProfileInfo] = useState([])
+    const modalSignup = useRef();
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -53,43 +54,60 @@ export default function EditProfile() {
         })
     }, [])
 
+    const handleClick = () => {
+        if (modalSignup.current.style.display === 'none' || modalSignup.current.style.display === '') {
+            modalSignup.current.style.display = 'block';
+        } else {
+            modalSignup.current.style.display = 'none';
+        }
+    }
+
+
     return (
-        <div>
-            <Navbar/>
-            <div className="login">
-                <form className="modal-content" onSubmit={handleSubmit}>
-                    <div className="container">
-                        <h1>Edit Profile</h1>
-                        { error && <div>{error}</div> }
-                        { !currentUser && <div><strong>Error: No user loged in.</strong><br/><Link to="/login" className="links">Log in</Link></div>}
-                        
-                        { currentUser && <div>
-                            <br/> <hr /> <br/> 
-                            <div className="changeProfilePicture">
-                                <AddFile typeOfImage={'Profile_Picture'} />
-                            </div>
-                            <br/> <br/>
+            <div className="editProfileDiv">
+                <button className="editProfile" onClick={handleClick}>Edit profile</button>
+                <div ref={modalSignup} className="modal">
+                    <form className="modal-content" onSubmit={handleSubmit}>
+                        <div className="container">
+                            <span onClick={handleClick} className="close" title="Close Modal">&times;</span>
+                            <h1>Edit Profile</h1>
+                            { error && <div>{error}</div> }
+                            { !currentUser && 
+                                <div>
+                                    <strong>Error: No user loged in.</strong>
+                                    <br/>
+                                    <Link to="/login" className="links">Log in</Link>
+                                </div>}
+                            
+                            { currentUser && <div>
+                                <br/> <hr /> <br/> 
 
-                            <label><b>Email</b></label>
-                            <input type="text" ref={emailRef} required defaultValue={currentUser.email} />
+                                <div className="changeProfilePicture">
+                                    <AddFile typeOfImage={'Header_Picture'} />
+                                    <AddFile typeOfImage={'Profile_Picture'} />
+                                </div>
+                                <br/>
 
-                            <label><b>Name</b></label>
-                            <input type="text" onChange={e => setName(e.target.value)} placeholder="Your name" defaultValue={profileInfo.name} required />
+                                <label><b>Email</b></label>
+                                <input type="text" ref={emailRef} required defaultValue={currentUser.email} />
 
-                            <label><b>User Name</b></label>
-                            <input type="text" onChange={e => setUser(e.target.value)} placeholder="Enter User Name" defaultValue={profileInfo.user} required />
+                                <label><b>Name</b></label>
+                                <input type="text" onChange={e => setName(e.target.value)} placeholder="Your name" defaultValue={profileInfo.name} required />
 
-                            <label><b>Describe yourself</b></label>
-                            <input type="text" placeholder="Your bio" onChange={e => setBio(e.target.value)} defaultValue={profileInfo.bio} />
+                                <label><b>User Name</b></label>
+                                <input type="text" onChange={e => setUser(e.target.value)} placeholder="Enter User Name" defaultValue={profileInfo.user} required />
 
-                            <br/>
-    
-                            <button type="submit" className="signupbtn" disabled={loading}>Save</button>
-                            { error && <div className="error">{error}</div> }
-                            </div>}
-                    </div>
-                </form>
+                                <label><b>Describe yourself</b></label>
+                                <input type="text" placeholder="Your bio" onChange={e => setBio(e.target.value)} defaultValue={profileInfo.bio} />
+
+                                <br/>
+        
+                                <button type="submit" className="signupbtn" disabled={loading}>Save</button>
+                                { error && <div className="error">{error}</div> }
+                                </div>}
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
     )
 }

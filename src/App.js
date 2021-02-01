@@ -6,7 +6,6 @@ import Signup from './Signup';
 import Login from './Login';
 import { AuthProvider } from './AuthContext';
 import Profile from './Profile';
-import EditProfile from './EditProfile';
 import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './ForgotPassword';
 import { FirebaseDatabaseProvider } from '@react-firebase/database'
@@ -26,7 +25,6 @@ function App() {
                 <CheckIfLogedRoute exact path="/forgot-password" component={ForgotPassword} />
                 <PrivateRoute exact path="/home" component={Home} />
                 <PrivateRoute exact path="/profile" component={Profile} />
-                <PrivateRoute exact path="/edit-profile" component={EditProfile} />
                 <Route path="/tweets/:id">
                   <TweetDetails />
                 </Route>

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useAuth } from './AuthContext'
 import { Link, useHistory } from 'react-router-dom'
 import { database } from './Firebase'
-import userPicture from './avatar.jpg'
-import header from './header.jpg'
 import Navbar from './Navbar'
+import EditProfile from './EditProfile'
+import UpdatePictures from './UpdatePictures'
 
 export default function Profile() {
     const [error, setError] = useState("");
@@ -47,11 +47,11 @@ export default function Profile() {
                 </div>
                 <div className="userInfo">
                     <div className="pictures">
-                        <img id="headerPicture" src={header} alt="header"/>
-                        <img id="profilePicture" src={userPicture} alt="profile_picture"/>
+                        <img id="headerPicture" src={UpdatePictures('Header_Picture')} alt="header"/>
+                        <img id="profilePicture" src={UpdatePictures('Profile_Picture')} alt="profile_picture"/>
                         <div className="buttons">
                             <button className="logOut" onClick={handleLogout}>Log out</button>
-                            <button className="editProfile"><Link className="links" to='/edit-profile'>Edit profile</Link></button>
+                            <EditProfile />
                         </div>
                     </div>
                     <div className="info">

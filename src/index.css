@@ -82,10 +82,8 @@
   background-color: rgb(234, 235, 255);
 }
 /* Full-width input fields */
-.login input[type="text"],
-.login input[type="password"],
-.signup input[type="text"],
-.signup input[type="password"] {
+input[type="text"],
+input[type="password"] {
   width: 95%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -95,15 +93,14 @@
 }
 
 /* Add a background color when the inputs get focus */
-.login input[type="text"]:focus,
-.login input[type="password"]:focus,
-.signup input[type="text"]:focus,
-.signup input[type="password"]:focus {
+input[type="text"]:focus,
+input[type="password"]:focus {
   background-color: #ddd;
   outline: none;
 }
 
 /* Set a style for all buttons */
+.editProfileDiv .modal button,
 .tweetear button,
 .login button,
 .signup button {
@@ -119,6 +116,7 @@
   font-weight: 900;
 }
 
+.editProfileDiv .modal button:hover,
 .tweetear button:hover,
 .login button:hover,
 .signup button:hover {
@@ -383,13 +381,17 @@
 }
 .userInfo .pictures {
   position: relative;
-  height: 300px;
+  min-height: 320px;
   height: 34vh;
 }
+
 .userInfo #headerPicture {
   width: 100%;
+  background-color: gray;
 }
 .userInfo #profilePicture {
+  text-align: center;
+  background-color: gray;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -408,11 +410,6 @@
   margin-right: 10px;
 }
 
-.userInfo .editProfile .links {
-  text-decoration: none;
-  font-size: 20px;
-  color: rgb(29, 161, 242);
-}
 .userInfo .editProfile {
   background-color: white;
   border: 1px solid rgb(29, 161, 242);
@@ -420,6 +417,8 @@
   cursor: pointer;
   padding: 5px 15px;
   opacity: 0.9;
+  font-size: 20px;
+  color: rgb(29, 161, 242);
 }
 .userInfo .editProfile:hover {
   opacity: 1;
@@ -427,10 +426,11 @@
 }
 .userInfo .logOut {
   background-color: #f44336;
+  border: 1px solid #f44336;
   border-radius: 25px;
   font-size: 20px;
   color: white;
-  padding: 5px 15px;
+  padding: 5px 25px;
   opacity: 0.9;
   margin-right: 15px;
   cursor: pointer;
@@ -442,33 +442,73 @@
   position: absolute;
   bottom: 1vh;
   right: 1vw;
+  display: flex;
 }
 .userInfo .info {
   padding: 20px;
 }
 
-.changeProfilePicture {
-  width: 100%;
-  height: 100%;
+.editProfileDiv .modal {
+  overflow: hidden;
 }
-.uploadPicture {
-  border: 1px solid black;
+.editProfileDiv .modal-content {
+  margin: 0 auto;
+  padding: 25px 25px 10px 25px;
+}
+.editProfileDiv h1 {
+  text-align: center;
+}
+.editProfileDiv .modal-content {
+  position: relative;
+}
+.editProfileDiv .close {
+  color: rgb(29, 161, 242);
+}
+
+.changeProfilePicture {
+  position: relative;
+  height: 27.5vh;
+}
+.uploadPictureProfile_Picture {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border: 3px solid white;
   border-radius: 50%;
   width: 100px;
   height: 100px;
-  margin: auto;
+  margin: 0 15px;
+  background-color: gray;
 }
-.uploadPicture .picture {
+.uploadPictureProfile_Picture .pictureProfile_Picture {
   max-width: 100px;
+  cursor: pointer;
+  height: 100px;
   border-radius: 50%;
 }
-.uploadPicture .icon {
-  position: static;
-  font-size: 35px;
-  opacity: 0.6;
-  margin: 33px 33px;
+.uploadPictureHeader_Picture .pictureHeader_Picture {
+  width: 100%;
   cursor: pointer;
 }
-.uploadPicture .icon:hover {
+.changeProfilePicture .iconHeader_Picture {
+  font-size: 35px;
+  opacity: 0.6;
+  margin: 0px;
+  width: 100%;
+  height: 220px;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.changeProfilePicture .iconProfile_Picture {
+  font-size: 35px;
+  opacity: 0.6;
+  margin: 0px;
+  padding: 32px;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+.changeProfilePicture .icon:hover {
   opacity: 1;
 }
