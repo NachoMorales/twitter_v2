@@ -1,14 +1,11 @@
 import { useState } from 'react'
 import { database } from './Firebase'
-import { useAuth } from './AuthContext'
 
-
-const UpdatePictures = function UpdatePictures(typeOfImage) {
-    const { currentUser } = useAuth()
+const UpdatePictures = function UpdatePictures(typeOfImage, userId) {
     const [fileInfo, setFileInfo] = useState([])
 
     database.files
-        .where('userId', '==', currentUser.uid)
+        .where('userId', '==', userId)
         .where('type', '==', typeOfImage)
         .get()
         .then(function(querySnapshot) {
@@ -16,7 +13,7 @@ const UpdatePictures = function UpdatePictures(typeOfImage) {
                 setFileInfo(database.formatDoc(doc))
             });
         }).catch(() => {
-            console.log('Failed to load profile info');
+            console.log('Failed to load '+ typeOfImage);
         })
 
     return fileInfo.url;

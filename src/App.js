@@ -24,8 +24,8 @@ function App() {
                 <CheckIfLogedRoute exact path="/login" component={Login} />
                 <CheckIfLogedRoute exact path="/forgot-password" component={ForgotPassword} />
                 <PrivateRoute exact path="/home" component={Home} />
-                <PrivateRoute exact path="/profile" component={Profile} />
-                <Route path="/tweets/:id">
+                <PrivateRoute exact path="/user/:user" component={Profile} />
+                <Route path="/user/:user/:id">
                   <TweetDetails />
                 </Route>
                 <Route path="*">

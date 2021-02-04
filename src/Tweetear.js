@@ -9,8 +9,7 @@ const Tweetear = () => {
     const [error, setError] = useState("");
     const [profileInfo, setProfileInfo] = useState([])
     const modalSignup = useRef();
-
-
+    const [loaded, setLoaded] = useState(false)
 
 
     const handleSubmit = (e) => {
@@ -22,16 +21,14 @@ const Tweetear = () => {
             name: profileInfo.name,
             userId: userId,
             createdAt: database.getCurrentTimestamp(),
+        }).then(() => {
+            setLoaded(true)
+            handleClick()
+        }).catch(() => {
+            setError('Failed to upload tweet')
         })
-
-        if (window.location.pathname === '/home') {
-            window.location.reload()
-        } else {
-            handleClick();
-            setBody('');
-        }
-        
     }
+
     const handleClick = () => {
         if (modalSignup.current.style.display === 'none' || modalSignup.current.style.display === '') {
             modalSignup.current.style.display = 'block';
@@ -60,11 +57,12 @@ const Tweetear = () => {
                     <div className="container">
                     
                         <h4>{ profileInfo.name + ' ' + profileInfo.user }</h4>
-                        <textarea placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)}></textarea>
+                        <textarea placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)} style={{ resize: "none" }}></textarea>
                     
                         <div className="clearfix">
                             <button type="button" onClick={handleClick} className="cancelbtn">Cancel</button>
-                            <button type="submit" className="signupbtn" id="tweetearButtonModal">Tweetear</button>
+                            { !loaded && <button type="submit" className="signupbtn" id="tweetearButtonModal">Tweetear</button>}
+                            { loaded && <button type="submit" className="signupbtn" id="tweetearButtonModal">Tweetear</button>}
                         </div>
                         { error && <div className="error">{error}</div> }
                     </div>

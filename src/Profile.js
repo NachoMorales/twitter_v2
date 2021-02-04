@@ -1,36 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useAuth } from './AuthContext'
 import { Link, useHistory } from 'react-router-dom'
-import { database } from './Firebase'
 import Navbar from './Navbar'
 import EditProfile from './EditProfile'
 import UpdatePictures from './UpdatePictures'
+import TweetList from './TweetList'
+import GetUserDoc from './GetUserDoc';
 
 export default function Profile() {
     const [error, setError] = useState("");
     const { currentUser, logout } = useAuth();
     const history = useHistory();
-    const userId = currentUser.uid;
-    const [profileInfo, setProfileInfo] = useState([])
+    const profileInfo = GetUserDoc()
+    const [totalTweets, setTotalTweets] = useState(0)
 
     async function handleLogout() {
-        setError('')
-
-        try {
-            await logout()
-            history.push('/')
-        } catch {
-            setError('Failed to log out');
+        if (window.confirm('Are you sure you want to log out?')) {
+            setError('')
+            try {
+                await logout()
+                history.push('/')
+            } catch {
+                setError('Failed to log out');
+            }
         }
     }
 
-    useEffect(() => {
-        database.users.doc(userId).get().then(doc => {
-            setProfileInfo(database.formatDoc(doc))
-        }).catch(() => {
-            setError('Failed to load profile info')
-        })
-    }, [])
     
 
     return (
@@ -42,13 +37,13 @@ export default function Profile() {
                 <div className="topUser">
                     <div className="info">
                         <h2>{ profileInfo.name }</h2>
-                        <h4>{ 15 } tweets</h4>
+                        <h4>{ totalTweets } tweets</h4>
                     </div>
                 </div>
                 <div className="userInfo">
                     <div className="pictures">
-                        <img id="headerPicture" src={UpdatePictures('Header_Picture')} alt="header"/>
-                        <img id="profilePicture" src={UpdatePictures('Profile_Picture')} alt="profile_picture"/>
+                        <img id="headerPicture" src={UpdatePictures('Header_Picture', currentUser.uid)} alt="header"/>
+                        <img id="profilePicture" src={UpdatePictures('Profile_Picture', currentUser.uid)} alt="profile_picture"/>
                         <div className="buttons">
                             <button className="logOut" onClick={handleLogout}>Log out</button>
                             <EditProfile />
@@ -63,6 +58,9 @@ export default function Profile() {
                         <br/> <br/>
                         <strong>Email: {currentUser.email}</strong>
                     </div>
+                </div>
+                <div className="userTweets">
+                    <TweetList user={currentUser.uid} getTotalTweets={total => setTotalTweets(total)} />
                 </div>
             </div>)}
             { !currentUser && (

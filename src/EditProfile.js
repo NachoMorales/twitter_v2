@@ -1,58 +1,49 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { useAuth } from './AuthContext'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { database } from './Firebase'
-import Navbar from './Navbar'
 import AddFile from './AddFile'
+import GetUserDoc from './GetUserDoc'
 
 export default function EditProfile() {
     const [error, setError] = useState("");
-    const [name, setName] = useState('');
-    const [user, setUser] = useState('');
-    const [bio, setBio] = useState('');
-    const { currentUser, updateEmail } = useAuth();
-    const history = useHistory();
+    const nameRef = useRef();
+    const userRef = useRef();
+    const bioRef = useRef();
     const emailRef = useRef();
+    const { currentUser, updateEmail } = useAuth();
     const [loading, setLoading] = useState(false);
     const userId = currentUser.uid
-    const [profileInfo, setProfileInfo] = useState([])
     const modalSignup = useRef();
+    const profileInfo = GetUserDoc()
 
     function handleSubmit(e) {
         e.preventDefault()
 
-        database.users.doc(userId).set({
-            user: user,
-            email: emailRef.current.value,
-            name: name,
-            bio: bio,
-            createdAt: database.getCurrentTimestamp(),
-        })
-
-
-
         const promises = []
         setLoading(true)
         setError('')
+        
         if (emailRef.current.value !== currentUser.email) {
             promises.push(updateEmail(emailRef.current.value))
         }
+        
+        promises.push(database.users.doc(userId).set({
+            user: userRef.current.value,
+            email: emailRef.current.value,
+            name: nameRef.current.value,
+            bio: bioRef.current.value,
+            createdAt: database.getCurrentTimestamp(),
+        }))
 
         Promise.all(promises).then(() => {
-            history.push('/profile')
+            setLoading(false)
+            handleClick()
         }).catch(() => {
             setError('Failed to update account')
-        }).finally(() => {
-            setLoading(false)
         })
     }
-    useEffect(() => {
-        database.users.doc(userId).get().then(doc => {
-            setProfileInfo(database.formatDoc(doc))
-        }).catch(() => {
-            setError('Failed to load profile info')
-        })
-    }, [])
+
 
     const handleClick = () => {
         if (modalSignup.current.style.display === 'none' || modalSignup.current.style.display === '') {
@@ -92,17 +83,17 @@ export default function EditProfile() {
                                 <input type="text" ref={emailRef} required defaultValue={currentUser.email} />
 
                                 <label><b>Name</b></label>
-                                <input type="text" onChange={e => setName(e.target.value)} placeholder="Your name" defaultValue={profileInfo.name} required />
+                                <input type="text" ref={nameRef} placeholder="Your name" defaultValue={profileInfo.name} required />
 
                                 <label><b>User Name</b></label>
-                                <input type="text" onChange={e => setUser(e.target.value)} placeholder="Enter User Name" defaultValue={profileInfo.user} required />
+                                <input type="text" ref={userRef} placeholder="Enter User Name" defaultValue={profileInfo.user} required />
 
                                 <label><b>Describe yourself</b></label>
-                                <input type="text" placeholder="Your bio" onChange={e => setBio(e.target.value)} defaultValue={profileInfo.bio} />
+                                <input type="text" placeholder="Your bio" ref={bioRef} defaultValue={profileInfo.bio} />
 
                                 <br/>
-        
-                                <button type="submit" className="signupbtn" disabled={loading}>Save</button>
+                                {loading && <button disabled={true} className="signupbtn">Saving...</button>}
+                                {!loading && <button type="submit" className="signupbtn">Save</button>}
                                 { error && <div className="error">{error}</div> }
                                 </div>}
                         </div>

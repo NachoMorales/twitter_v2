@@ -10,27 +10,22 @@ export default function AddFile({ typeOfImage }) {
     const [error, setError] = useState('')
     const [fileInfo, setFileInfo] = useState([])
     const userId = currentUser.uid
-
+    
 
     function updatePictures(userId, typeOfImage) {
         database.files
         .where('userId', '==', userId)
         .where('type', '==', typeOfImage)
-        .get()
-        .then(function(querySnapshot) {
+        .onSnapshot((querySnapshot) => {
             querySnapshot.forEach(function(doc) {
                 setFileInfo(database.formatDoc(doc))
                 setLoaded(true)
             });
-        }).catch(() => {
-            setError('Failed to load profile info');
-            setLoaded(false)
         })
     }
 
 
-
-
+// Remove Checkpoints
     function handleUpload(e) {
         console.log(typeOfImage+' starting')
         const file = e.target.files[0]
