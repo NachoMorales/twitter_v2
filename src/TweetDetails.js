@@ -4,7 +4,6 @@ import { database } from './Firebase'
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import Tweet from "./Tweet";
 import { useAuth } from './AuthContext'
 import UpdatePictures from './UpdatePictures'
 import DeleteTweet from "./DeleteTweet";
@@ -14,19 +13,25 @@ const TweetDetails = () => {
     const history = useHistory();
     const [tweet, setTweet] = useState([])
     const { currentUser } = useAuth();
-
-    const getTweet = async () => {
-        database.tweets.doc(id)
-        .onSnapshot((doc) => {
-            var tweetDoc = []
-            tweetDoc = database.formatDoc(doc)
-            setTweet(tweetDoc)
-        })
-    }
-
+    
     useEffect(() => {
+        let mounted = true
+
+        const getTweet = async () => {    
+            database.tweets.doc(id)
+            .onSnapshot((doc) => {
+                if (mounted) {
+                    var tweetDoc = []
+                    tweetDoc = database.formatDoc(doc)
+                    setTweet(tweetDoc)
+                }
+            })
+        }
+        
         getTweet();
-    }, []);
+        return () => mounted = false
+    }, [id]);
+    
 
     return ( 
         <div>
@@ -39,7 +44,7 @@ const TweetDetails = () => {
                         <article>
                             { tweet.userId === currentUser.uid && <DeleteTweet tweet={tweet.id} /> }
                             <Link to={`/${tweet.user}`} className="tweetUserInfoLink">
-                                <img id="profilePicture" src={UpdatePictures('Profile_Picture', currentUser.uid)} alt="profile_picture"/>
+                                <img id="profilePicture" src={UpdatePictures('Profile_Picture', tweet.userId)} alt="profile_picture"/>
                                 <div className="tweetUserInfo">
                                     <h3> { tweet.name } </h3>
                                     <br/>

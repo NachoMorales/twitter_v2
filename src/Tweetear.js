@@ -1,13 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { database } from './Firebase';
 import { useAuth } from './AuthContext';
+import GetUserDoc from "./GetUserDoc";
 
 const Tweetear = () => {
     const [body, setBody] = useState('');
     const { currentUser } = useAuth();
     const userId = currentUser.uid
     const [error, setError] = useState("");
-    const [profileInfo, setProfileInfo] = useState([])
+    const profileInfo = GetUserDoc()
     const modalSignup = useRef();
     const [loaded, setLoaded] = useState(false)
 
@@ -37,14 +38,6 @@ const Tweetear = () => {
         }
     }
 
-    useEffect(() => {
-        database.users.doc(userId).get().then(doc => {
-            setProfileInfo(database.formatDoc(doc))
-        }).catch(() => {
-            setError('Failed to load profile info')
-            console.log(error);
-        })
-    }, [])
 
     return ( 
         <div className="tweetear">

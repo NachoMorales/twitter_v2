@@ -3,6 +3,8 @@ import { database } from './Firebase'
 
 const UpdatePictures = function UpdatePictures(typeOfImage, userId) {
     const [fileInfo, setFileInfo] = useState([])
+    
+    if (!userId) return
 
     database.files
         .where('userId', '==', userId)

@@ -8,7 +8,7 @@ const Navbar = () => {
             <h1>Twitter v2</h1>
             <div className="links">
                 <Link to="/home">Home</Link>
-                <Link to={`/user/${(GetUserDoc('user').user)}`}>Profile</Link>
+                <Link to={`/user/${(GetUserDoc().user)}`}>Profile</Link>
                 <Tweetear />
             </div>
         </nav>
