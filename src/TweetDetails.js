@@ -43,7 +43,7 @@ const TweetDetails = () => {
                 { tweet && (
                         <article>
                             { tweet.userId === currentUser.uid && <DeleteTweet tweet={tweet.id} /> }
-                            <Link to={`/${tweet.user}`} className="tweetUserInfoLink">
+                            <Link to={`/user/${tweet.userId}`} className="tweetUserInfoLink">
                                 <img id="profilePicture" src={UpdatePictures('Profile_Picture', tweet.userId)} alt="profile_picture"/>
                                 <div className="tweetUserInfo">
                                     <h3> { tweet.name } </h3>

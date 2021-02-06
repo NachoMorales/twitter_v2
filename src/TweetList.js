@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { database } from './Firebase'
 import { useAuth } from './AuthContext'
 import DeleteTweet from "./DeleteTweet";
+import UpdatePictures from "./UpdatePictures";
 
 const TweetList = props => {
     const [tweets, setTweets] = useState([])
@@ -55,9 +56,9 @@ const TweetList = props => {
             { loaded && <div> { tweets.map(tweet => (
                 <div className="tweet-preview" key={tweet.id}>
                     { tweet.userId === currentUser.uid && <DeleteTweet tweet={tweet.id} /> }
-                    <Link to={`/user/${tweet.user}/${tweet.id}`}>
+                    <Link to={`/user/${tweet.userId}/${tweet.id}`}>
                         {/* TODO: display profile pictures in tweets
-                        <img id="profilePicture" src={UpdatePictures('Profile_Picture')} alt="profile_picture"/> */}
+                        <img id="profilePicture" src={UpdatePictures('Profile_Picture', tweet.userId)} alt="profile_picture"/> */}
                         <div className="tweetUserInfo">
                             <h3> {tweet.name} </h3>
                             <p> {tweet.user} </p>

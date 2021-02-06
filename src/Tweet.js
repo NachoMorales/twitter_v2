@@ -2,13 +2,13 @@ import { useState } from "react";
 import { database } from './Firebase'
 import { useAuth } from './AuthContext'
 import GetUserDoc from "./GetUserDoc";
+import UpdatePictures from "./UpdatePictures";
 
 const Tweet = () => {
     const [body, setBody] = useState('');
     const { currentUser } = useAuth();
     const userId = currentUser.uid
     const profileInfo = GetUserDoc()
-
 
 
     const handleSubmit = (e) => {
@@ -23,14 +23,17 @@ const Tweet = () => {
         })
     }
 
+
+
     return ( 
         <div>
         <form onSubmit={handleSubmit}>
-            <h4>{ profileInfo.name + ' ' + profileInfo.user }</h4>
-            <textarea placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)} style={{ resize: "none" }}></textarea>
-            <button>Tweetear</button>
+            <img id="profilePicture" src={UpdatePictures('Profile_Picture', userId)} alt="profile_picture"/>
+            <div id="text-end">
+                <textarea maxLength="280" placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)} ></textarea>
+                <button>Tweet</button>
+            </div>
         </form>
-        
         </div>
     )
 

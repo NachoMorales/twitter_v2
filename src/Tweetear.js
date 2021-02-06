@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { database } from './Firebase';
 import { useAuth } from './AuthContext';
 import GetUserDoc from "./GetUserDoc";
+import UpdatePictures from "./UpdatePictures";
 
 const Tweetear = () => {
     const [body, setBody] = useState('');
@@ -10,12 +11,12 @@ const Tweetear = () => {
     const [error, setError] = useState("");
     const profileInfo = GetUserDoc()
     const modalSignup = useRef();
-    const [loaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(true)
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        setLoaded(false)
         database.tweets.add({
             tweet: body,
             user: profileInfo.user,
@@ -48,14 +49,13 @@ const Tweetear = () => {
                         <span onClick={handleClick} className="closeTweetModal" title="Close Modal">&times;</span>
                     </div>
                     <div className="container">
-                    
-                        <h4>{ profileInfo.name + ' ' + profileInfo.user }</h4>
+                        <img id="profilePicture" src={UpdatePictures('Profile_Picture', userId)} alt="profile_picture"/>
                         <textarea placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)} style={{ resize: "none" }}></textarea>
                     
                         <div className="clearfix">
                             <button type="button" onClick={handleClick} className="cancelbtn">Cancel</button>
-                            { !loaded && <button type="submit" className="signupbtn" id="tweetearButtonModal">Tweetear</button>}
-                            { loaded && <button type="submit" className="signupbtn" id="tweetearButtonModal">Tweetear</button>}
+                            { !loaded && <button type="submit" className="signupbtn" id="tweetearButtonModal">Tweeting</button>}
+                            { loaded && <button type="submit" className="signupbtn" id="tweetearButtonModal">Tweet</button>}
                         </div>
                         { error && <div className="error">{error}</div> }
                     </div>

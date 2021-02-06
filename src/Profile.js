@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuth } from './AuthContext'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import Navbar from './Navbar'
 import EditProfile from './EditProfile'
 import UpdatePictures from './UpdatePictures'
 import TweetList from './TweetList'
 import GetUserDoc from './GetUserDoc';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 export default function Profile() {
+    const { user } = useParams()
     const [error, setError] = useState("");
     const { currentUser, logout } = useAuth();
     const history = useHistory();
-    const profileInfo = GetUserDoc()
+    const profileInfo = GetUserDoc(user)
     const [totalTweets, setTotalTweets] = useState(0)
 
     async function handleLogout() {
@@ -26,15 +29,17 @@ export default function Profile() {
         }
     }
 
+  
     
 
     return (
         <div className="userProfile">
             { error && <div>{error}</div> }
-            { currentUser && (
+            { profileInfo && (
             <div>
                 <Navbar />
                 <div className="topUser">
+                    <FontAwesomeIcon onClick={history.goBack} className="goBackButton" icon={faArrowLeft} size='lg' />
                     <div className="info">
                         <h2>{ profileInfo.name }</h2>
                         <h4>{ totalTweets } tweets</h4>
@@ -42,8 +47,8 @@ export default function Profile() {
                 </div>
                 <div className="userInfo">
                     <div className="pictures">
-                        <img id="headerPicture" src={UpdatePictures('Header_Picture', currentUser.uid)} alt="header"/>
-                        <img id="profilePicture" src={UpdatePictures('Profile_Picture', currentUser.uid)} alt="profile_picture"/>
+                        <img id="headerPicture" src={UpdatePictures('Header_Picture', user)} alt="header"/>
+                        <img id="profilePicture" src={UpdatePictures('Profile_Picture', user)} alt="profile_picture"/>
                         <div className="buttons">
                             <button className="logOut" onClick={handleLogout}>Log out</button>
                             <EditProfile />
@@ -56,11 +61,11 @@ export default function Profile() {
                         <h3>Joined on { 'January 2021' }</h3>
                         <h3 className="follows">{ 25 } Following</h3> <h3 className="follows">{ 30 } Followers</h3>
                         <br/> <br/>
-                        <strong>Email: {currentUser.email}</strong>
+                        <strong>Email: {profileInfo.email}</strong>
                     </div>
                 </div>
                 <div className="userTweets">
-                    <TweetList user={currentUser.uid} getTotalTweets={total => setTotalTweets(total)} />
+                    <TweetList user={user} getTotalTweets={total => setTotalTweets(total)} />
                 </div>
             </div>)}
             { !currentUser && (
