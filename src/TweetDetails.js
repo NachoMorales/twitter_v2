@@ -7,6 +7,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from './AuthContext'
 import UpdatePictures from './UpdatePictures'
 import DeleteTweet from "./DeleteTweet";
+import AnswerTweet from "./AnswerTweet";
 
 const TweetDetails = () => {
     const { id } = useParams();
@@ -52,8 +53,7 @@ const TweetDetails = () => {
                                 </div>
                             </Link>
                             <p>{ tweet.tweet }</p>
-                            
-                            {/* // TODO: Answer Tweet */}
+                            <AnswerTweet {...tweet} />
                         </article>
                     )}
             </div>

@@ -332,26 +332,47 @@ input[type="password"]:focus {
   margin: 0 15px;
 }
 
+#tweetModal .container {
+  text-align: start;
+}
+.tweetReply #tweetBody {
+  font-weight: 400;
+  font-size: initial;
+}
+.tweetReply h5 {
+  font-weight: 300;
+}
+#link {
+  text-decoration: none;
+  font-weight: 400;
+  color: rgb(29, 161, 242);
+}
+
 #tweetFromHome {
   border: 1px solid #f2f2f2;
   max-width: 1000px;
   padding: 10px 16px;
 }
+.tweetear img,
+.tweetReply img,
 #tweetFromHome img {
-  margin: 5px;
+  margin: 0;
   float: left;
 }
-#tweetFromHome textarea {
-  border: none;
+#tweetTextarea {
   resize: none;
+  border: none;
   overflow: hidden;
   height: auto;
   outline: none;
-  width: 86%;
+  width: 80%;
   height: auto;
   max-height: 175px;
   /* TODO: auto-expand */
   font-size: 20px;
+}
+#tweetFromHome #tweetTextarea {
+  width: 86%;
 }
 
 #tweetFromHome h5 {
