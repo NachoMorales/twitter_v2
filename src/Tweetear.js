@@ -50,7 +50,7 @@ const Tweetear = () => {
                     </div>
                     <div className="container">
                         <img id="profilePicture" src={UpdatePictures('Profile_Picture', userId)} alt="profile_picture"/>
-                        <textarea placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)} style={{ resize: "none" }}></textarea>
+                        <textarea id="tweetTextarea" placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)} style={{ resize: "none" }}></textarea>
                     
                         <div className="clearfix">
                             <button type="button" onClick={handleClick} className="cancelbtn">Cancel</button>

@@ -9,7 +9,7 @@ const Tweet = () => {
     const { currentUser } = useAuth();
     const userId = currentUser.uid
     const profileInfo = GetUserDoc()
-
+    const url = UpdatePictures('Profile_Picture', userId);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,13 +24,13 @@ const Tweet = () => {
     }
 
 
-
     return ( 
         <div>
         <form onSubmit={handleSubmit}>
-            <img id="profilePicture" src={UpdatePictures('Profile_Picture', userId)} alt="profile_picture"/>
+            { !url && <div className="loading" id="profilePictureLoader"></div>}
+            { url && <img id="profilePicture" src={url} alt="profile_picture"/>}
             <div id="text-end">
-                <textarea maxLength="280" placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)} ></textarea>
+                <textarea id="tweetTextarea" maxLength="280" placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)} ></textarea>
                 <button>Tweet</button>
             </div>
         </form>

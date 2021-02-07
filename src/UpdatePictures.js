@@ -3,7 +3,7 @@ import { database } from './Firebase'
 
 const UpdatePictures = function UpdatePictures(typeOfImage, userId) {
     const [fileInfo, setFileInfo] = useState([])
-    
+    const [error, setError] = useState('')
     if (!userId) return
 
     database.files
@@ -15,7 +15,8 @@ const UpdatePictures = function UpdatePictures(typeOfImage, userId) {
                 setFileInfo(database.formatDoc(doc))
             });
         }).catch(() => {
-            console.log('Failed to load '+ typeOfImage);
+            setError('Failed to load '+ typeOfImage);
+            return error
         })
 
     return fileInfo.url;

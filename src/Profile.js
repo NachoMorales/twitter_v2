@@ -55,13 +55,16 @@ export default function Profile() {
                         </div>
                     </div>
                     <div className="info">
-                        <h2>{ profileInfo.name }</h2>
-                        <h3>{ profileInfo.user }</h3>
-                        <h3>{ profileInfo.bio }</h3>
-                        <h3>Joined on { 'January 2021' }</h3>
-                        <h3 className="follows">{ 25 } Following</h3> <h3 className="follows">{ 30 } Followers</h3>
-                        <br/> <br/>
-                        <strong>Email: {profileInfo.email}</strong>
+                        { !profileInfo.user && <div className="loading" id="profileInfoLoader"></div>}
+                        { profileInfo.user && <div>
+                            <h2>{ profileInfo.name }</h2>
+                            <h3>{ profileInfo.user }</h3>
+                            <h3>{ profileInfo.bio }</h3>
+                            <h3>Joined on { 'January 2021' }</h3>
+                            <h3 className="follows">{ 25 } Following</h3> <h3 className="follows">{ 30 } Followers</h3>
+                            <br/> <br/>
+                            <strong>Email: {profileInfo.email}</strong>
+                        </div>}
                     </div>
                 </div>
                 <div className="userTweets">
