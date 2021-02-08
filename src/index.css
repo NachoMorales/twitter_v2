@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 * {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -693,3 +694,615 @@ input[type="password"]:focus {
 .changeProfilePicture .icon:hover {
   opacity: 1;
 }
+=======
+* {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Ubuntu, "Helvetica Neue", sans-serif;
+  color: #333;
+}
+
+.navbar {
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.navbar h1 {
+  color: rgb(29, 161, 242);
+}
+.navbar .links {
+  margin-left: auto;
+}
+.navbar a {
+  margin-left: 16px;
+  text-decoration: none;
+  padding: 6px;
+}
+.navbar a:hover {
+  color: rgb(29, 161, 242);
+}
+
+.content {
+  max-width: 700px;
+  margin: auto;
+  padding: 0px;
+}
+
+.leftSide {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  width: 55%;
+  height: 100%;
+}
+.leftSide img {
+  width: 100%;
+  height: 100%;
+}
+.rightSide {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  width: 45%;
+  height: 100%;
+}
+.signup {
+  margin: auto;
+  margin-top: 25vh;
+  width: 70%;
+  padding: 10px 16px;
+  font-size: 40px;
+  overflow: auto;
+}
+.signupDiv {
+  font-size: initial;
+}
+
+.signup .loginButton {
+  border: 1px solid rgb(29, 161, 242);
+  color: rgb(29, 161, 242);
+  background-color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  cursor: pointer;
+  border-radius: 25px;
+  font-weight: 900;
+}
+
+.login .signupButton:hover,
+.signup .loginButton:hover {
+  background-color: rgb(234, 235, 255);
+}
+/* Full-width input fields */
+input[type="text"],
+input[type="password"] {
+  width: 95%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* Add a background color when the inputs get focus */
+input[type="text"]:focus,
+input[type="password"]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for all buttons */
+.editProfileDiv .modal button,
+.tweetear button,
+.login button,
+.signup button {
+  background-color: rgb(29, 161, 242);
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  border-radius: 25px;
+  font-weight: 900;
+}
+
+.editProfileDiv .modal button:hover,
+.tweetear button:hover,
+.login button:hover,
+.signup button:hover {
+  opacity: 1;
+}
+
+/* Extra styles for the cancel button */
+.tweetear .cancelbtn,
+.login .cancelbtn,
+.signup .cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.tweetear .cancelbtn,
+.tweetear #tweetearButtonModal,
+.login .cancelbtn,
+.login #signupButtonModal,
+.signup .cancelbtn,
+.signup .signupbtn {
+  float: left;
+  width: 44%;
+  margin: 10px 15px 0px 15px;
+}
+
+/* Add padding to container elements */
+.tweetear .container,
+.login .container,
+.signup .container {
+  padding: 16px;
+}
+
+.login .signupButton {
+  width: 55%;
+  background-color: white;
+  color: rgb(29, 161, 242);
+  border: 1px solid rgb(29, 161, 242);
+  border-radius: 25px;
+}
+.login .signupDiv {
+  display: flex;
+  justify-content: center;
+  margin-top: -10vh;
+}
+
+.login #linksContainer {
+  width: 100%;
+  text-align: center;
+}
+.login .links {
+  margin: auto 15px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.5);
+  padding-top: 50px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto;
+  border-radius: 20px;
+  padding: 10px;
+  width: 33%;
+  min-width: 400px;
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+  color: rgb(29, 161, 242);
+  cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.error {
+  background-color: #f44336;
+  color: white;
+  border: 1px solid black;
+  margin: 25px auto 0px auto;
+  width: 50%;
+  text-align: center;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 20px;
+}
+
+.success {
+  background-color: rgb(29, 161, 242);
+  color: white;
+  border: 1px solid black;
+  margin: 25px auto 0px auto;
+  width: 50%;
+  text-align: center;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 20px;
+}
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn,
+  .signupbtn {
+    width: 100%;
+  }
+}
+
+.tweet-list {
+  margin-bottom: 15vh;
+}
+.tweet-preview {
+  position: relative;
+  padding: 10px 16px;
+  margin: 0;
+  border: 1px solid #f2f2f2;
+}
+.tweet-preview:hover {
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+}
+#deleteTweet {
+  color: rgb(255, 91, 91);
+  opacity: 0.6;
+}
+#deleteTweet:hover {
+  opacity: 1;
+}
+.tweet-preview h2 {
+  font-size: 20px;
+  color: rgb(29, 161, 242);
+  margin-bottom: 8px;
+}
+.tweet-preview a {
+  text-decoration: none;
+}
+
+.tweet-details h3 {
+  font-size: 20px;
+  color: rgb(29, 161, 242);
+  margin-bottom: 10px;
+}
+.tweet-details h5 {
+  font-weight: 400;
+}
+.tweet-details .goBackDiv {
+  padding: 10px;
+}
+.tweet-details .goBackButton {
+  cursor: pointer;
+  margin: 0 10px;
+}
+.tweet-details {
+  position: relative;
+  margin: 20px 0;
+  border: 1px solid #f2f2f2;
+}
+.tweet-details #deleteTweet {
+  top: 0;
+  right: 2vw;
+}
+.tweet-details article {
+  border-top: 1px solid #f2f2f2;
+  padding: 10px;
+}
+.tweet-details article p {
+  font-size: 25px;
+  font-weight: 500;
+}
+.tweetUserInfoLink {
+  display: flex;
+  margin-bottom: 20px;
+  text-decoration: none;
+  width: fit-content;
+}
+.tweetUserInfo {
+  margin: auto 0;
+}
+.tweetUserInfo h5 {
+  display: inline;
+}
+.tweetUserInfo h3 {
+  display: inline;
+}
+#profilePicture {
+  text-align: center;
+  background-color: gray;
+  border-radius: 50%;
+  width: 3vw;
+  height: 3vw;
+  margin: 0 15px;
+}
+
+#tweetModal .container {
+  text-align: start;
+}
+.tweetReply #tweetBody {
+  font-weight: 400;
+  font-size: initial;
+}
+.tweetReply h5 {
+  font-weight: 300;
+}
+#link {
+  text-decoration: none;
+  font-weight: 400;
+  color: rgb(29, 161, 242);
+}
+
+#tweetFromHome {
+  border: 1px solid #f2f2f2;
+  max-width: 1000px;
+  padding: 10px 16px;
+}
+.tweetear img,
+.tweetReply img,
+#tweetFromHome img {
+  margin: 0;
+  float: left;
+}
+#tweetTextarea {
+  resize: none;
+  border: none;
+  overflow: hidden;
+  height: auto;
+  outline: none;
+  width: 80%;
+  height: auto;
+  max-height: 175px;
+  /* TODO: auto-expand */
+  font-size: 20px;
+}
+#tweetFromHome #tweetTextarea {
+  width: 86%;
+}
+
+#tweetFromHome h5 {
+  font-weight: lighter;
+}
+#tweetFromHome button {
+  width: 100px;
+  border-radius: 100px;
+  font-size: 16px;
+}
+#tweetFromHome #text-end {
+  text-align: end;
+}
+
+.tweetear {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.tweetear label {
+  text-align: left;
+  display: block;
+}
+.tweetear h2 {
+  font-size: 20px;
+  color: rgb(29, 161, 242);
+  margin-bottom: 30px;
+}
+.tweetear input,
+.tweetear textarea,
+.tweetear select {
+  width: 100%;
+  padding: 6px 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  display: block;
+}
+.tweetear button {
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.tweetear #tweetearButtonModal {
+  padding: 14px 20px;
+}
+
+.tweetear #tweetFromDiv {
+  float: right;
+  margin-top: 15px;
+  margin-left: 105px;
+  background-color: rgb(29, 161, 242);
+  color: white;
+  border: 1px solid rgb(29, 161, 242);
+  border-radius: 25px;
+}
+
+#tweetModal {
+  position: relative;
+}
+#topTweetModal {
+  width: 100%;
+  height: 5vh;
+  border-bottom: 1px solid rgb(234, 235, 255);
+}
+.closeTweetModal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  margin: 10px 20px;
+  padding: 0 10px 20px 10px;
+  font-size: 35px;
+  color: rgb(29, 161, 242);
+}
+.closeTweetModal:hover {
+  background-color: rgb(234, 235, 255);
+}
+
+.topUser {
+  border: 1px solid#f2f2f2;
+  padding: 5px;
+}
+.topUser .info {
+  width: 90%;
+  margin: 0px auto 0px auto;
+}
+.topUser .goBackButton {
+  float: left;
+  margin: 15px;
+}
+.topUser h2 {
+  font-size: 26px;
+}
+.userInfo {
+  border: 1px solid #f2f2f2;
+}
+.userInfo .pictures {
+  position: relative;
+  min-height: 320px;
+  height: 34vh;
+}
+
+.userInfo #headerPicture {
+  width: 100%;
+  max-height: 25vh;
+  background-color: gray;
+}
+.userInfo #profilePicture {
+  text-align: center;
+  background-color: gray;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 15px;
+  border: 5px solid white;
+  border-radius: 50%;
+  width: 7vw;
+  height: 7vw;
+}
+.userInfo h3 {
+  font-weight: lighter;
+  margin-bottom: 10px;
+}
+.userInfo .follows {
+  float: left;
+  margin-right: 10px;
+}
+
+.userInfo .editProfile {
+  background-color: white;
+  border: 1px solid rgb(29, 161, 242);
+  border-radius: 25px;
+  cursor: pointer;
+  padding: 5px 15px;
+  opacity: 0.9;
+  font-size: 20px;
+  color: rgb(29, 161, 242);
+}
+.userInfo .editProfile:hover {
+  opacity: 1;
+  background-color: rgb(234, 235, 255);
+}
+.userInfo .logOut {
+  background-color: #f44336;
+  border: 1px solid red;
+  border-radius: 25px;
+  font-size: 20px;
+  color: white;
+  padding: 5px 25px;
+  opacity: 0.6;
+  margin-right: 15px;
+  cursor: pointer;
+}
+.userInfo .logOut:hover {
+  opacity: 1;
+}
+.userInfo .buttons {
+  position: absolute;
+  bottom: 1vh;
+  right: 1vw;
+  display: flex;
+}
+.userInfo .info {
+  padding: 20px;
+}
+
+.editProfileDiv .modal {
+  overflow: hidden;
+}
+.editProfileDiv .modal-content {
+  margin: 0 auto;
+  padding: 25px 25px 10px 25px;
+}
+.editProfileDiv h1 {
+  text-align: center;
+}
+.editProfileDiv .modal-content {
+  position: relative;
+}
+.editProfileDiv .close {
+  color: rgb(29, 161, 242);
+}
+
+.changeProfilePicture {
+  position: relative;
+  height: 27.5vh;
+}
+.uploadPictureProfile_Picture {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border: 3px solid white;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin: 0 15px;
+  background-color: gray;
+}
+.uploadPictureProfile_Picture .pictureProfile_Picture {
+  max-width: 100px;
+  cursor: pointer;
+  height: 100px;
+  border-radius: 50%;
+}
+.uploadPictureHeader_Picture .pictureHeader_Picture {
+  width: 100%;
+  cursor: pointer;
+}
+.changeProfilePicture .iconHeader_Picture {
+  font-size: 35px;
+  opacity: 0.6;
+  margin: 0px;
+  width: 100%;
+  height: 220px;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.changeProfilePicture .iconProfile_Picture {
+  font-size: 35px;
+  opacity: 0.6;
+  margin: 0px;
+  padding: 32px;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+.changeProfilePicture .icon:hover {
+  opacity: 1;
+}
+>>>>>>> 2ce7aabb605b7d29f14503f2178f6eae0caaea7d
