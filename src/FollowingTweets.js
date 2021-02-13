@@ -6,6 +6,7 @@ import DeleteTweet from "./DeleteTweet";
 import AnswerTweet from "./AnswerTweet";
 import moment from 'moment'
 import GetUserDoc from "./GetUserDoc";
+import Tweetear from "./Tweetear";
 
 const FollowingTweets = props => {
     const [tweets, setTweets] = useState([])
@@ -40,6 +41,9 @@ const FollowingTweets = props => {
                 )
 
                 Promise.all(promises).then(() => {
+                    if (docs.length === 0) {
+                        setError(<div className="notFound"><h3>{'Welcome to Twitter!'}</h3> <br/> <h5>{ 'This is the best place to see what’s happening in your world. Find some people and topics to follow now.'}</h5> <br/> <Link to={'/'}><button>Let´s Go!</button></Link> </div>) // TODO: pagina con usuarios no seguidos
+                    }
                     setTweets(docs)
                     setLoaded(true)
                 })
@@ -55,6 +59,9 @@ const FollowingTweets = props => {
                         docs.push(database.formatDoc(doc))
                     })
                     props.getTotalTweets(docs.length)
+                    if (docs.length === 0) {
+                        setError(<div className="notFound"><h3>{'You haven’t Tweeted yet'}</h3> <br/> <h5>{ 'When you post a Tweet, it’ll show up here.' }</h5> <br/> <Tweetear/> </div>)
+                    }
                     setTweets(docs)
                     setLoaded(true)
                 });
