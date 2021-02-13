@@ -15,11 +15,11 @@ export default function EditProfile() {
     const [loading, setLoading] = useState(false);
     const userId = currentUser.uid
     const modalSignup = useRef();
-    const profileInfo = GetUserDoc()
+    const profileInfo = GetUserDoc(currentUser.uid)
 
     function handleSubmit(e) {
         e.preventDefault()
-
+        
         const promises = []
         setLoading(true)
         setError('')
@@ -28,17 +28,28 @@ export default function EditProfile() {
             promises.push(updateEmail(emailRef.current.value))
         }
         
-        promises.push(database.users.doc(userId).set({
-            user: userRef.current.value,
-            email: emailRef.current.value,
-            name: nameRef.current.value,
-            bio: bioRef.current.value,
-            createdAt: database.getCurrentTimestamp(),
-            followers: [],
-            following: [],
-            profilePicture: '',
-            headerPicture: '',
-        }))
+        if (profileInfo.createdAt) {
+            promises.push(database.users.doc(userId).update({
+                user: userRef.current.value,
+                email: emailRef.current.value,
+                name: nameRef.current.value,
+                bio: bioRef.current.value,
+            }))
+        } else {
+            promises.push(database.users.doc(userId).set({
+                user: userRef.current.value,
+                email: emailRef.current.value,
+                name: nameRef.current.value,
+                bio: bioRef.current.value,
+                createdAt: database.getCurrentTimestamp(),
+                followers: [],
+                following: [],
+                profilePicture: '',
+                headerPicture: '',
+            }))
+        }
+        
+
 
         Promise.all(promises).then(() => {
             setLoading(false)
@@ -67,13 +78,6 @@ export default function EditProfile() {
                             <span onClick={handleClick} className="close" title="Close Modal">&times;</span>
                             <h1>Edit Profile</h1>
                             { error && <div>{error}</div> }
-                            { !currentUser && 
-                                <div>
-                                    <strong>Error: No user loged in.</strong>
-                                    <br/>
-                                    <Link to="/login" className="links">Log in</Link>
-                                </div>}
-                            
                             { currentUser && <div>
                                 <br/> <hr /> <br/> 
 
