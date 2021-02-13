@@ -17,7 +17,6 @@ const FollowingTweets = props => {
 
     useEffect(() => {
         const getTweets = async () => {
-            console.log('getTweets')
             if (props.filter === 'home') {
                 if (!user.following) {
                     return

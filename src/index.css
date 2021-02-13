@@ -75,11 +75,14 @@ h5 {
   margin-top: 47px;
 }
 #whoToFollow #top {
-  padding: 5px;
-  font-size: 23px;
-  font-weight: 800;
+  padding: 10px 20px;
+  font-size: 21px;
+  font-weight: 700;
+  border-bottom: 1px solid rgb(235, 238, 240);
 }
 #whoToFollow #list {
+  border-bottom: 1px solid rgb(235, 238, 240);
+  padding: 10px 0px 25px 0;
 }
 
 .navbar {
@@ -831,6 +834,9 @@ input[type="password"]:focus {
 }
 .followMap:hover {
   background-color: rgb(243, 243, 243);
+}
+.followMap h3:hover {
+  text-decoration: underline;
 }
 
 .notFound {
