@@ -27,30 +27,32 @@ export default function Login() {
     }
 
     return (
-        <div className="login">
-            <form className="modal-content" onSubmit={handleSubmit}>
-                <div className="container">
-                    <h1>Log in to Twitter</h1>
-                        <br/> <br/> <hr /> <br/> 
-                    <label><b>Email</b></label>
-                    <input type="text" ref={emailRef} placeholder="Enter Email" required />
+        <div className="content">
+            <div className="login">
+                <form className="modal-content" onSubmit={handleSubmit}>
+                    <div className="container">
+                        <h1>Log in to Twitter</h1>
+                            <br/> <br/> <hr /> <br/> 
+                        <label><b>Email</b></label>
+                        <input type="text" ref={emailRef} placeholder="Enter Email" required />
 
-                    <label><b>Password</b></label>
-                    <input type="password" ref={passwordRef} placeholder="Enter Password" required />
-            
-                    <label>
-                        <input type="checkbox" /> Remember me
-                    </label>
-                        <br/> <br/>
-                    
-                    <button type="submit" className="signupbtn" disabled={loading}>Log in</button>
-                    { error && <div className="error">{error}</div> }
-                </div>
-                <div id="linksContainer">
-                    <Link to="/forgot-password" className="links">Forgot password?</Link>
-                </div>
-            </form>
-            <SignupModal/>
+                        <label><b>Password</b></label>
+                        <input type="password" ref={passwordRef} placeholder="Enter Password" required />
+                
+                        <label>
+                            <input type="checkbox" /> Remember me
+                        </label>
+                            <br/> <br/>
+                        
+                        <button type="submit" className="signupbtn" disabled={loading}>Log in</button>
+                        { error && <div className="error">{error}</div> }
+                    </div>
+                    <div id="linksContainer">
+                        <Link to="/forgot-password" className="links">Forgot password?</Link>
+                    </div>
+                </form>
+                <SignupModal/>
+            </div>
         </div>
     )
 }

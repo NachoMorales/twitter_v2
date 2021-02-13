@@ -2,14 +2,13 @@ import { useState, useRef } from "react";
 import { database } from './Firebase';
 import { useAuth } from './AuthContext';
 import GetUserDoc from "./GetUserDoc";
-import UpdatePictures from "./UpdatePictures";
 
 const Tweetear = () => {
     const [body, setBody] = useState('');
     const { currentUser } = useAuth();
     const userId = currentUser.uid
     const [error, setError] = useState("");
-    const profileInfo = GetUserDoc()
+    const profileInfo = GetUserDoc(currentUser.uid)
     const modalSignup = useRef();
     const [loaded, setLoaded] = useState(true)
 
@@ -33,7 +32,7 @@ const Tweetear = () => {
 
     const handleClick = () => {
         if (modalSignup.current.style.display === 'none' || modalSignup.current.style.display === '') {
-            modalSignup.current.style.display = 'block';
+            modalSignup.current.style.display = 'initial';
         } else {
             modalSignup.current.style.display = 'none';
         }
@@ -49,7 +48,7 @@ const Tweetear = () => {
                         <span onClick={handleClick} className="closeTweetModal" title="Close Modal">&times;</span>
                     </div>
                     <div className="container">
-                        <img id="profilePicture" src={UpdatePictures('Profile_Picture', userId)} alt="profile_picture"/>
+                        <img id="profilePicture" src={profileInfo.profilePicture} alt="profile_picture"/>
                         <textarea id="tweetTextarea" placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)} style={{ resize: "none" }}></textarea>
                     
                         <div className="clearfix">

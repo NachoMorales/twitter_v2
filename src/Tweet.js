@@ -2,17 +2,18 @@ import { useState } from "react";
 import { database } from './Firebase'
 import { useAuth } from './AuthContext'
 import GetUserDoc from "./GetUserDoc";
-import UpdatePictures from "./UpdatePictures";
 
 const Tweet = () => {
     const [body, setBody] = useState('');
     const { currentUser } = useAuth();
     const userId = currentUser.uid
-    const profileInfo = GetUserDoc()
-    const url = UpdatePictures('Profile_Picture', userId);
+    const profileInfo = GetUserDoc(currentUser.uid)
+    const [loaded, setLoaded] = useState(true)
+    const [error, setError] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoaded(false);
 
         database.tweets.add({
             tweet: body,
@@ -20,6 +21,11 @@ const Tweet = () => {
             name: profileInfo.name,
             userId: userId,
             createdAt: database.getCurrentTimestamp(),
+        }).then(() => {
+            setBody('');
+            setLoaded(true)
+        }).catch((e) => {
+            setError(e)
         })
     }
 
@@ -27,13 +33,15 @@ const Tweet = () => {
     return ( 
         <div>
         <form onSubmit={handleSubmit}>
-            { !url && <div className="loading" id="profilePictureLoader"></div>}
-            { url && <img id="profilePicture" src={url} alt="profile_picture"/>}
+            { !profileInfo && <div className="loading" id="profilePictureLoader"></div>}
+            { profileInfo && <img id="profilePicture" src={profileInfo.profilePicture} alt="profile_picture"/>}
             <div id="text-end">
                 <textarea id="tweetTextarea" maxLength="280" placeholder="What's happening?" required value={body} onChange={(e) => setBody(e.target.value)} ></textarea>
-                <button>Tweet</button>
+                { loaded && <button>Tweet</button> }
+                { !loaded && <button disabled>Tweeting</button> }
             </div>
         </form>
+        { error && <div> { error } </div>}
         </div>
     )
 

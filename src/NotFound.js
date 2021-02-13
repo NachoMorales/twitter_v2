@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom"
+import Navbar from "./Navbar";
 
 const NotFound = () => {
     return ( 
-        <div className="not-Found">
-            <h2>Sorry</h2>
-            <p>That page cannot be found</p>
-            <Link to="/home">Back to the homepage...</Link>
+        <div>
+            <Navbar />
+            <div className="content notFound">
+                <h3>Sorry, that page doesn´t exist!</h3>
+                 <br/>
+                <h5>Why not try a search to find something else?</h5>
+                <br/>
+                <Link to="/home">Back to the homepage...</Link>
+            </div>
         </div>
      );
 }

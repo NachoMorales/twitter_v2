@@ -7,6 +7,8 @@ const GetUserDoc = function GetUserDoc(userId) {
     const [user, setUser] = useState([])
     const [error, setError] = useState('')
 
+    // Maybe remove this
+
     if (!userId) {
         database.users
         .doc(currentUser.uid)
@@ -17,6 +19,9 @@ const GetUserDoc = function GetUserDoc(userId) {
             setError('Failed to load profile info')
             return error
         })
+
+        // ^^^^^^^^^^
+
     } else {
         database.users
         .doc(userId)

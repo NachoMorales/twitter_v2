@@ -1,8 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { database } from './Firebase';
 import { useAuth } from './AuthContext';
 import GetUserDoc from "./GetUserDoc";
-import UpdatePictures from "./UpdatePictures";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment } from '@fortawesome/free-regular-svg-icons'
 import { Link } from "react-router-dom";
@@ -12,7 +11,7 @@ const AnswerTweet = (tweet) => {
     const { currentUser } = useAuth();
     const userId = currentUser.uid
     const [error, setError] = useState("");
-    const profileInfo = GetUserDoc()
+    const profileInfo = GetUserDoc(currentUser.uid)
     const modalSignup = useRef();
     const [loaded, setLoaded] = useState(true);
 
@@ -81,15 +80,15 @@ const AnswerTweet = (tweet) => {
                     <div id="topTweetModal">
                         <span onClick={handleClick} className="closeTweetModal" title="Close Modal">&times;</span>
                     </div>
-                    <div className="container">
+                    <div className="container"> {/* wtf? */}
                         { !tweet.answerTo && <div className="tweetReply prevTweet">
-                            <img id="profilePicture" src={UpdatePictures('Profile_Picture', tweet.userId)} alt="profile_picture"/>    
+                            <img id="profilePicture" src={(GetUserDoc(tweet.userId)).profilePicture} alt="profile_picture"/>    
                             <h5> <b>{ tweet.name }</b> { tweet.user }</h5>
                             <p id="tweetBody">{ tweet.tweet }</p>
                             <h5>Replying to <Link id="link" to={`/user/${tweet.userId}`}>{ tweet.user }</Link></h5>
                         </div>}
                         { tweet.answerTo && <div className="tweetReply prevTweet">
-                            <img id="profilePicture" src={UpdatePictures('Profile_Picture', tweet.userId)} alt="profile_picture"/>    
+                            <img id="profilePicture" src={(GetUserDoc(tweet.userId)).profilePicture} alt="profile_picture"/>    
                             <h5> <b>{ tweet.name }</b> { tweet.user }</h5>
                             <p id="tweetBody">{ tweet.tweet }</p>
                             <h5>Replying to <Link id="link" to={`/user/${tweet.userId}`}>{ tweet.user }</Link></h5>
@@ -98,7 +97,7 @@ const AnswerTweet = (tweet) => {
 
                         <div className="tweetReply">
                             
-                            <img id="profilePicture" src={UpdatePictures('Profile_Picture', userId)} alt="profile_picture"/>
+                            <img id="profilePicture" src={profileInfo.profilePicture} alt="profile_picture"/>
                             <textarea id="tweetTextarea" placeholder="Tweet your reply" required value={body} onChange={(e) => setBody(e.target.value)} style={{ resize: "none" }}></textarea>
                         </div>
                         

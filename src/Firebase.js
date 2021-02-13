@@ -16,7 +16,6 @@ const firestore = app.firestore()
 export const database = {
     users: firestore.collection('users'),
     tweets: firestore.collection('tweets'),
-    files: firestore.collection('files'),
     formatDoc: doc => {
         return { id: doc.id, ...doc.data() }
     },

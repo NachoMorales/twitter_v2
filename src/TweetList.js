@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { database } from './Firebase'
 import { useAuth } from './AuthContext'
 import DeleteTweet from "./DeleteTweet";
-import UpdatePictures from "./UpdatePictures";
 import AnswerTweet from "./AnswerTweet";
+import moment from 'moment'
 
 const TweetList = props => {
     const [tweets, setTweets] = useState([])
@@ -23,6 +23,7 @@ const TweetList = props => {
                     if (mounted) {
                         const docs = []
                         querySnapshot.forEach(function(doc) {
+                            if (doc.createdAt === undefined) doc.createdAt = [2021];
                             docs.push(database.formatDoc(doc))
                         });
                         setTweets(docs)
@@ -37,6 +38,7 @@ const TweetList = props => {
                     if (mounted) {
                         const docs = []
                         querySnapshot.forEach(function(doc) {
+                            if (doc.createdAt === undefined) doc.createdAt = [2021];
                             docs.push(database.formatDoc(doc))
                         });
                         props.getTotalTweets(docs.length)
@@ -62,7 +64,7 @@ const TweetList = props => {
                         <img id="profilePicture" src={UpdatePictures('Profile_Picture', tweet.userId)} alt="profile_picture"/> */}
                         <div className="tweetUserInfo">
                             <h3> {tweet.name} </h3>
-                            <h5> {tweet.user} </h5>
+                            <h5> {tweet.user + ' · ' + moment(tweet.createdAt.toDate()).fromNow(true)} </h5>
                         </div>
                         <p> {tweet.tweet} </p>
                     </Link>

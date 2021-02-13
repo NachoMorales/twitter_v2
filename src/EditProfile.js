@@ -34,6 +34,10 @@ export default function EditProfile() {
             name: nameRef.current.value,
             bio: bioRef.current.value,
             createdAt: database.getCurrentTimestamp(),
+            followers: [],
+            following: [],
+            profilePicture: '',
+            headerPicture: '',
         }))
 
         Promise.all(promises).then(() => {

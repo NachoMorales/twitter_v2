@@ -26,6 +26,7 @@ export default function ForgotPassword() {
     }
 
     return (
+        
         <div className="login">
             <form className="modal-content" onSubmit={handleSubmit}>
                 <div className="container">
