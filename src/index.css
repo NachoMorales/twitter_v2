@@ -150,7 +150,6 @@ h5 {
   position: fixed;
   bottom: 0;
   left: 0;
-  z-index: 1;
   width: 55%;
   height: 100%;
 }
@@ -162,7 +161,6 @@ h5 {
   position: fixed;
   bottom: 0;
   right: 0;
-  z-index: 1;
   width: 45%;
   height: 100%;
 }
@@ -173,9 +171,13 @@ h5 {
   padding: 10px 16px;
   font-size: 40px;
   overflow: auto;
+  position: relative;
+  z-index: 1;
 }
 .signupDiv {
   font-size: initial;
+  position: relative;
+  z-index: 2;
 }
 
 .signup .loginButton {
