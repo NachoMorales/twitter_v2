@@ -56,7 +56,7 @@ h5 {
   height: 100%;
   width: 31.5%;
   display: flex;
-  z-index: 2;
+  z-index: 1;
 }
 #rightSideDiv {
   position: absolute;

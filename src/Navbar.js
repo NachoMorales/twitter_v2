@@ -16,7 +16,6 @@ const Navbar = () => {
     const [loaded, setLoaded] = useState(false)
     const [users, setUsers] = useState([])
 
-    // TODO: -Get people that user doesn't follow   -Map
     function getNotFollows() {
         if (!profileInfo.following) {
             return
