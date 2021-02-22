@@ -21,6 +21,9 @@ const Tweetear = () => {
             user: profileInfo.user,
             name: profileInfo.name,
             userId: userId,
+            like: [],
+            retweet: [],
+            profilePicture: profileInfo.profilePicture,
             createdAt: database.getCurrentTimestamp(),
         }).then(() => {
             setLoaded(true)

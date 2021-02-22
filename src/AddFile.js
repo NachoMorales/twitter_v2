@@ -7,15 +7,14 @@ import GetUserDoc from './GetUserDoc'
 
 export default function AddFile({ typeOfImage }) {
     const { currentUser } = useAuth()
-    const userId = currentUser.uid
-    const profileInfo = GetUserDoc(userId)
+    const profileInfo = GetUserDoc(currentUser.uid)
     
 
 
     function handleUpload(e) {
         const file = e.target.files[0]
         
-        const uploadTask = storage.ref(`/${userId}/${typeOfImage}`).put(file)
+        const uploadTask = storage.ref(`/${currentUser.uid}/${typeOfImage}`).put(file)
         
         uploadTask.on('state_changed', snapshot => {
 
@@ -25,13 +24,26 @@ export default function AddFile({ typeOfImage }) {
             uploadTask.snapshot.ref.getDownloadURL().then(url => {
                 if (typeOfImage === 'Profile_Picture') {
                     database.users
-                    .doc(userId)
+                    .doc(currentUser.uid)
                     .update({
                         profilePicture: url,
                     })
+
+                    database.tweets
+                    .where('userId', '==', currentUser.uid)
+                    .get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            database.tweets
+                            .doc(doc.id)
+                            .update({
+                                profilePicture: url,
+                            })
+                        })
+                    })
                 } else if (typeOfImage === 'Header_Picture') {
                     database.users
-                    .doc(userId)
+                    .doc(currentUser.uid)
                     .update({
                         headerPicture: url,
                     })

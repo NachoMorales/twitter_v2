@@ -14,10 +14,13 @@ const app = firebase.initializeApp({
 
 const firestore = app.firestore()
 export const database = {
+    firestore: firestore,
     users: firestore.collection('users'),
     tweets: firestore.collection('tweets'),
+    likes: firestore.collectionGroup('like'),
+    answers: firestore.collectionGroup('answers'),
     formatDoc: doc => {
-        return { id: doc.id, ...doc.data() }
+        return { id: doc.id, path: doc.ref.path, ...doc.data() }
     },
     getCurrentTimestamp: firebase.firestore.FieldValue.serverTimestamp,
 }

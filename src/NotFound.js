@@ -10,7 +10,7 @@ const NotFound = () => {
                  <br/>
                 <h5>Why not try a search to find something else?</h5>
                 <br/>
-                <Link to="/home">Back to the homepage...</Link>
+                <Link to="/home"><button>Homepage</button></Link>
             </div>
         </div>
      );

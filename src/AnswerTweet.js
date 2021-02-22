@@ -20,16 +20,32 @@ const AnswerTweet = (tweet) => {
         setLoaded(false)
 
         if (!tweet.answerTo) {
-            database.tweets
-            .doc(tweet.id)
+            database.firestore
+            .doc(tweet.path)
             .collection('answers')
             .add({
+                root: tweet.id,
                 answerTo: tweet.id,
+                
+                like: [],
+                retweet: [],
                 tweet: body,
+                profilePicture: profileInfo.profilePicture,
                 user: profileInfo.user,
                 name: profileInfo.name,
                 userId: userId,
                 createdAt: database.getCurrentTimestamp(),
+                
+                rootTweet: {
+                    createdAt: tweet.createdAt,
+                    like: tweet.like, // Update HandleInteraction
+                    retweet: tweet.retweet,
+                    name: tweet.name,
+                    profilePicture: tweet.profilePicture,
+                    tweet: tweet.tweet,
+                    user: tweet.user,
+                    userId: tweet.userId,
+                },
             }).then(() => {
                 setLoaded(true)
                 setBody('')
@@ -38,19 +54,43 @@ const AnswerTweet = (tweet) => {
                 setError('Failed to upload tweet')
             })
         } else {
-            database.tweets
-            .doc(tweet.answerTo)
-            .collection('answers')
-            .doc(tweet.id)
+            database.firestore
+            .doc(tweet.path)
             .collection('answers')
             .add({
-                rootTweet: tweet.answerTo,
+                root: tweet.rootTweet,
                 answerTo: tweet.id,
+                
+                like: [],
+                retweet: [],
                 tweet: body,
+                profilePicture: profileInfo.profilePicture,
                 user: profileInfo.user,
                 name: profileInfo.name,
                 userId: userId,
                 createdAt: database.getCurrentTimestamp(),
+                
+                prevTweet: {
+                    createdAt: tweet.createdAt,
+                    like: tweet.like, // Update HandleInteraction
+                    retweet: tweet.retweet,
+                    name: tweet.name,
+                    profilePicture: tweet.profilePicture,
+                    tweet: tweet.tweet,
+                    user: tweet.user,
+                    userId: tweet.userId,
+                },
+                
+                rootTweet: {
+                    createdAt: tweet.rootTweet.createdAt,
+                    like: tweet.rootTweet.like, // Update HandleInteraction
+                    retweet: tweet.rootTweet.retweet,
+                    name: tweet.rootTweet.name,
+                    profilePicture: tweet.rootTweet.profilePicture,
+                    tweet: tweet.rootTweet.tweet,
+                    user: tweet.rootTweet.user,
+                    userId: tweet.rootTweet.userId,
+                },
             }).then(() => {
                 setLoaded(true)
                 setBody('')
@@ -80,19 +120,13 @@ const AnswerTweet = (tweet) => {
                     <div id="topTweetModal">
                         <span onClick={handleClick} className="closeTweetModal" title="Close Modal">&times;</span>
                     </div>
-                    <div className="container"> {/* wtf? */}
-                        { !tweet.answerTo && <div className="tweetReply prevTweet">
-                            <img id="profilePicture" src={(GetUserDoc(tweet.userId)).profilePicture} alt="profile_picture"/>    
+                    <div className="container">
+                        <div className="tweetReply prevTweet">
+                            <img id="profilePicture" src={(GetUserDoc(tweet.userId)).profilePicture} alt="profile_picture"/>
                             <h5> <b>{ tweet.name }</b> { tweet.user }</h5>
                             <p id="tweetBody">{ tweet.tweet }</p>
                             <h5>Replying to <Link id="link" to={`/user/${tweet.userId}`}>{ tweet.user }</Link></h5>
-                        </div>}
-                        { tweet.answerTo && <div className="tweetReply prevTweet">
-                            <img id="profilePicture" src={(GetUserDoc(tweet.userId)).profilePicture} alt="profile_picture"/>    
-                            <h5> <b>{ tweet.name }</b> { tweet.user }</h5>
-                            <p id="tweetBody">{ tweet.tweet }</p>
-                            <h5>Replying to <Link id="link" to={`/user/${tweet.userId}`}>{ tweet.user }</Link></h5>
-                        </div>}
+                        </div>
                         <svg className="line" width="50" height="50"><line x1="25" y1="0" x2="25" y2="100"/></svg>
 
                         <div className="tweetReply">

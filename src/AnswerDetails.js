@@ -8,7 +8,7 @@ import { useAuth } from './AuthContext'
 import DeleteTweet from "./DeleteTweet";
 import AnswerTweet from "./AnswerTweet";
 import moment from 'moment'
-import GetUserDoc from "./GetUserDoc";
+import HandleInteraction from "./HandleInteraction";
 
 const AnswerDetails = () => {
     const { id, answerId } = useParams();
@@ -49,10 +49,14 @@ const AnswerDetails = () => {
             .collection('answers')
             .doc(answerId)
             .collection('answers')
+            .orderBy('createdAt','asc')
             .onSnapshot((querySnapshot) => {
                 if (mounted) {
                     var answersDoc = []
                     querySnapshot.forEach(function(doc) {
+                        if (!doc.data().createdAt && querySnapshot.metadata.hasPendingWrites) {
+                            return
+                        }
                         answersDoc.push(database.formatDoc(doc))
                     });
                     setAnswers(answersDoc)
@@ -78,7 +82,7 @@ const AnswerDetails = () => {
                             <article className="answerArticle">
                                 {/* answer.userId === currentUser.uid && <DeleteTweet tweet={tweet.id} /> */}
                                 <Link to={`/user/${tweet.userId}`} className="tweetUserInfoLink" id="answerLink">
-                                    <img id="profilePicture" src={(GetUserDoc(tweet.userId)).profilePicture} alt="profile_picture"/>
+                                    <img id="profilePicture" src={tweet.profilePicture} alt="profile_picture"/>
                                     <div className="tweetUserInfo">
                                         <h3> {tweet.name} </h3>
                                         {tweet.createdAt !== undefined && <h5> { tweet.user + ' · ' + moment(tweet.createdAt.toDate()).format('MMM D') } </h5>}
@@ -88,13 +92,16 @@ const AnswerDetails = () => {
                             </article>
                             <div className="tweetBottom">
                                 <AnswerTweet {...tweet} />
+                                {tweet.retweet && <HandleInteraction tweet={tweet} interaction='retweet' />}
+
+                                {tweet.like && <HandleInteraction tweet={tweet} interaction='like' />}
                             </div>
 
 
                             <article>
                                 {/* tweet.userId === currentUser.uid && <DeleteTweet tweet={tweet.id} /> */}
                                 <Link to={`/user/${answer.userId}`} className="tweetUserInfoLink">
-                                    <img id="profilePicture" src={(GetUserDoc(answer.userId)).profilePicture} alt="profile_picture"/>
+                                    <img id="profilePicture" src={answer.profilePicture} alt="profile_picture"/>
                                     <div className="tweetUserInfo">
                                         <h3> { answer.name } </h3>
                                         <br/>
@@ -114,8 +121,7 @@ const AnswerDetails = () => {
                                     <article className="answerArticle">
                                         {/* answer.userId === currentUser.uid && <DeleteTweet tweet={tweet.id} /> */}
                                         <Link to={`/user/${ans.userId}`} className="tweetUserInfoLink" id="answerLink">
-                                            {/* TODO: display profile pictures in tweets
-                                            <img id="profilePicture" src={UpdatePictures('Profile_Picture', tweet.userId)} alt="profile_picture"/> */}
+                                            <img id="profilePicture" src={ans.profilePicture} alt="profile_picture"/>
                                             <div className="tweetUserInfo">
                                                 <h3> {ans.name} </h3>
                                                 <h5> { ans.user + ' · ' + moment(ans.createdAt.toDate()).format('MMM D') } </h5>

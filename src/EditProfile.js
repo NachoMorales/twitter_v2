@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react'
 import { useAuth } from './AuthContext'
-import { Link } from 'react-router-dom'
 import { database } from './Firebase'
 import AddFile from './AddFile'
 import GetUserDoc from './GetUserDoc'
@@ -28,28 +27,12 @@ export default function EditProfile() {
             promises.push(updateEmail(emailRef.current.value))
         }
         
-        if (profileInfo.createdAt) {
-            promises.push(database.users.doc(userId).update({
-                user: userRef.current.value,
-                email: emailRef.current.value,
-                name: nameRef.current.value,
-                bio: bioRef.current.value,
-            }))
-        } else {
-            promises.push(database.users.doc(userId).set({
-                user: userRef.current.value,
-                email: emailRef.current.value,
-                name: nameRef.current.value,
-                bio: bioRef.current.value,
-                createdAt: database.getCurrentTimestamp(),
-                followers: [],
-                following: [],
-                profilePicture: '',
-                headerPicture: '',
-            }))
-        }
-        
-
+        promises.push(database.users.doc(userId).update({
+            user: userRef.current.value,
+            email: emailRef.current.value,
+            name: nameRef.current.value,
+            bio: bioRef.current.value,
+        }))
 
         Promise.all(promises).then(() => {
             setLoading(false)
@@ -77,7 +60,6 @@ export default function EditProfile() {
                         <div className="container">
                             <span onClick={handleClick} className="close" title="Close Modal">&times;</span>
                             <h1>Edit Profile</h1>
-                            { error && <div>{error}</div> }
                             { currentUser && <div>
                                 <br/> <hr /> <br/> 
 

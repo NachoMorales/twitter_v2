@@ -28,7 +28,11 @@ export default function Following() {
                 })
             })
             setFollows(userDoc)
-        } else setError(<div className="notFound"><h3>{profileInfo.user + ' doesn´t have any followers'}</h3> <br/> <h5>{ 'When someone follows them, they´ll be listed here.' }</h5> </div>)
+        } else setError(<div className="notFound">
+                            <h3>{profileInfo.user + ' doesn´t have any followers'}</h3>
+                            <br/> 
+                            <h5>{ 'When someone follows them, they´ll be listed here.' }</h5> 
+                        </div>)
         setLoaded(true)
     }
 

@@ -11,7 +11,6 @@ import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
 import moment from 'moment'
 import { database } from './Firebase'
 import firebase from "firebase/app"
-import FollowingTweets from './FollowingTweets'
 
 export default function Profile() {
     const { user } = useParams()
@@ -22,6 +21,7 @@ export default function Profile() {
     const [totalTweets, setTotalTweets] = useState(0);
     const [follow, setFollow] = useState(false)
     const [loaded, setLoaded] = useState(false)
+    // const [mutuals, setMutuals] = useState([])
 
     function handleFollow() {
         if (!follow) {
@@ -58,20 +58,36 @@ export default function Profile() {
         }
     }
 
-    
+
     function getStatus() {
+        // const users = []
+        // setMutuals([])
+
         if (profileInfo.followers.length !== 0) {
             profileInfo.followers.forEach(follower => {
                 if (follower === currentUser.uid) setFollow(true)
             })
         } else setFollow(false)
 
+        // database.users
+        // .where(firebase.firestore.FieldPath.documentId(),'in',profileInfo.followers)
+        // .where('followers','array-contains',currentUser.uid)
+        // .onSnapshot((querySnapshot) => {
+        //     querySnapshot.forEach((doc) => {
+        //         users.push(database.formatDoc(doc))
+        //     })
+        // })
+        
+        // setMutuals(users)
         setLoaded(true)
     }
+    
 
-    useEffect(() => {    
-        if (user !== currentUser.uid && profileInfo.followers && !loaded) getStatus();
-    })
+    useEffect(() => {
+        if (user !== currentUser.uid && profileInfo.followers && !loaded) {
+            getStatus();
+        } 
+    }, [profileInfo])
 
 
     async function handleLogout() {
@@ -101,7 +117,8 @@ export default function Profile() {
                 </div>
                 <div className="userInfo">
                     <div className="pictures">
-                        <img id="headerPicture" src={profileInfo.headerPicture} alt="header"/>
+                        {profileInfo.headerPicture && <img id="headerPicture" src={profileInfo.headerPicture} alt="header"/>}
+                        {!profileInfo.headerPicture && <div id="headerPicture"></div>}
                         <img id="profilePicture" src={profileInfo.profilePicture} alt="profile_picture"/>
                         { user === currentUser.uid && 
                         <div className="buttons">
@@ -115,22 +132,33 @@ export default function Profile() {
                         </div>}
                     </div>
                     <div className="info">
-                        { !profileInfo.user && <div className="loading" id="profileInfoLoader"></div>}
-                        { profileInfo.user && <div>
+                        { !profileInfo && <div className="loading" id="profileInfoLoader"></div>}
+                        { profileInfo.createdAt && <div>
                             <h2>{ profileInfo.name }</h2>
                             <h3>{ profileInfo.user }</h3>
                             <h3>{ profileInfo.bio }</h3>
                             <h3><FontAwesomeIcon icon={faCalendarAlt} size='lg' style={{ opacity: 0.7 }} /> Joined { moment(profileInfo.createdAt.toDate()).format('MMMM YYYY') }</h3>
                             <h3 className="follows"><Link to={`/user/${user}/following`} style={{ textDecoration: "none" }}><strong>{ profileInfo.following.length }</strong> Following</Link></h3>
                             <h3 className="follows"><Link to={`/user/${user}/followers`} style={{ textDecoration: "none" }}><strong>{ profileInfo.followers.length }</strong> Followers</Link></h3>
-                            <br/> <br/>
+                            <br/> 
+                            <br/>
                             <strong>Email: {profileInfo.email}</strong>
+                            {/* { mutuals.length !== 0 && <div style={{display: 'flex'}}> Followed by: { mutuals.map(mutual => (
+                                <div key={mutual.id} style={{margin: '0 5px'}} > -{mutual.name}</div>
+                            ))} </div> } */}
+                            
                         </div>}
                     </div>
+                    <div className="switch" id="switchTweets">
+                        <Link to={`/user/${user}`}><button className="active">Tweets</button></Link>
+                        <Link to={`/user/${user}/with_replies`}><button>Tweets & replies</button></Link>
+                        <Link to={`/user/${user}/media`}><button>Media</button></Link>
+                        <Link to={`/user/${user}/likes`}><button>Likes</button></Link>
+                    </div>
                 </div>
+                
                 <div className="userTweets">
-                    {/* <TweetList user={user} getTotalTweets={total => setTotalTweets(total)} /> */}
-                    <FollowingTweets userId={user} getTotalTweets={total => setTotalTweets(total)} filter={'profile'} />
+                    <TweetList userId={user} getTotalTweets={total => setTotalTweets(total)} filter={'profile'} />
                 </div>
             </div>
         </div>

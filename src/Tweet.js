@@ -17,9 +17,12 @@ const Tweet = () => {
 
         database.tweets.add({
             tweet: body,
+            like: [],
+            retweet: [],
             user: profileInfo.user,
             name: profileInfo.name,
             userId: userId,
+            profilePicture: profileInfo.profilePicture,
             createdAt: database.getCurrentTimestamp(),
         }).then(() => {
             setBody('');

@@ -9,6 +9,7 @@ import DeleteTweet from "./DeleteTweet";
 import AnswerTweet from "./AnswerTweet";
 import moment from 'moment'
 import GetUserDoc from "./GetUserDoc";
+import HandleInteraction from "./HandleInteraction";
 
 const TweetDetails = () => {
     const { id } = useParams();
@@ -33,10 +34,14 @@ const TweetDetails = () => {
             database.tweets
             .doc(id)
             .collection('answers')
+            .orderBy('createdAt','asc')
             .onSnapshot((querySnapshot) => {
                 if (mounted) {
                     var answersDoc = []
                     querySnapshot.forEach(function(doc) {
+                        if (!doc.data().createdAt && querySnapshot.metadata.hasPendingWrites) {
+                            return
+                        }
                         answersDoc.push(database.formatDoc(doc))
                     });
                     setAnswers(answersDoc)
@@ -72,16 +77,23 @@ const TweetDetails = () => {
                                 <p>{ tweet.tweet }</p>
                                 <h5 style={{ marginLeft: '15px' }}>{ tweet.createdAt !== undefined && moment(tweet.createdAt.toDate()).format('h:mm · MMM D, YYYY') }</h5>
                             </article>
+                            <div className="tweetBottom" style={{justifyContent: "initial" }}>
+                                <Link to={`/`} > {tweet.retweet.length} Retweets</Link>
+                                <Link to={`/`} > {tweet.like.length} Likes</Link>
+                            </div>
                             <div className="tweetBottom">
                                 <AnswerTweet {...tweet} />
+
+                                {tweet.retweet && <HandleInteraction tweet={tweet} interaction='retweet' />}
+
+                                { tweet.like && <HandleInteraction tweet={tweet} interaction='like' />}
                             </div>
                             { answers.map(answer => (
                                 <div key={answer.id}>
                                     <article className="answerArticle">
                                         {/* answer.userId === currentUser.uid && <DeleteTweet tweet={tweet.id} /> */}
                                         <Link to={`/user/${answer.userId}`} className="tweetUserInfoLink" id="answerLink">
-                                            {/* TODO: display profile pictures in tweets
-                                            <img id="profilePicture" src={UpdatePictures('Profile_Picture', tweet.userId)} alt="profile_picture"/> */}
+                                            <img id="profilePicture" src={answer.profilePicture} alt="profile_picture"/>
                                             <div className="tweetUserInfo">
                                                 <h3> {answer.name} </h3>
                                                 <h5> { answer.user + ' · ' + moment(tweet.createdAt.toDate()).format('MMM D') } </h5>
@@ -92,6 +104,11 @@ const TweetDetails = () => {
                                     </article>
                                     <div className="tweetBottom">
                                         <AnswerTweet {...answer} />
+                                        
+                                        {/* TODO:
+
+                                        <HandleInteraction tweet={tweet} interaction='retweet' />
+                                        <HandleInteraction tweet={tweet} interaction='like' /> */}
                                     </div>
                                 </div>
                             )) }

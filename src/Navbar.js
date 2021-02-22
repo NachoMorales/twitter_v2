@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import Tweetear from './Tweetear';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,18 +9,16 @@ import GetUserDoc from './GetUserDoc';
 import { useEffect, useState } from 'react';
 import { database } from './Firebase';
 import firebase from "firebase/app"
+import HandleFollow from './HandleFollow';
 
 const Navbar = () => {
     const { currentUser } = useAuth()
     const profileInfo = GetUserDoc(currentUser.uid)
     const [loaded, setLoaded] = useState(false)
     const [users, setUsers] = useState([])
+    const history = useHistory()
 
     function getNotFollows() {
-        if (!profileInfo.following) {
-            return
-        }
-
         var follows = profileInfo.following
         var promises = []
         var docs = []
@@ -30,6 +28,7 @@ const Navbar = () => {
         promises.push(
             database.users
             .where(firebase.firestore.FieldPath.documentId(),'not-in',follows)
+            .limit(3)
             .onSnapshot((querySnapshot) => {
                 querySnapshot.forEach(function(doc) {
                     docs.push(database.formatDoc(doc))
@@ -44,33 +43,57 @@ const Navbar = () => {
     }
 
     useEffect(() => {
-        if (profileInfo.following && !loaded) getNotFollows();
-    }, [profileInfo.user])
-
-
-
+        if (profileInfo.following && history.location.pathname !== '/connect' && !loaded) getNotFollows();
+    }, [profileInfo])
 
     return ( 
         <div>
             <header id="navbarDiv">
                 <nav className="navbar">
-                    <Link to="/home">
-                        <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
-                    </Link>
-                    <div className="newLinks">
-                        <Link to="/home"><FontAwesomeIcon icon={faHome} className="navIcon" /><p>Home</p></Link>
+                    <div>
+                        <Link to="/home">
+                            <FontAwesomeIcon icon={faTwitter} className="twitterIcon" />
+                        </Link>
+                        <div className="newLinks">
+                            { history.location.pathname === '/home' && <Link to="/home" className="active">
+                                <FontAwesomeIcon icon={faHome} className="navIcon" />
+                                <p>Home</p>
+                            </Link>}
+                            { history.location.pathname !== '/home' && <Link to="/home">
+                                <FontAwesomeIcon icon={faHome} className="navIcon" />
+                                <p>Home</p>
+                            </Link>}
+                        </div>
+                        <div className="newLinks">
+                            { history.location.pathname === `/user/${currentUser.uid}` && <Link to={`/user/${currentUser.uid}`} className="active">
+                                <FontAwesomeIcon icon={faUser} className="navIcon" />
+                                <p>Profile</p>
+                            </Link>}
+                            { history.location.pathname !== `/user/${currentUser.uid}` && <Link to={`/user/${currentUser.uid}`}>
+                                <FontAwesomeIcon icon={faUser} className="navIcon" />
+                                <p>Profile</p>
+                            </Link>}
+                        </div>
+                        <Tweetear />
                     </div>
-                    <div className="newLinks">
-                        <Link to={`/user/${currentUser.uid}`}><FontAwesomeIcon icon={faUser} className="navIcon" /><p>Profile</p></Link>
+                    <div className="navProfileInfo">
+                        <div className="tweetPicture">
+                            <Link to={`/user/${profileInfo.id}`}>
+                                <img className="tweetProfilePicture" src={profileInfo.profilePicture} alt="profile_picture"/>
+                            </Link>
+                        </div>
+                        <Link to={`/user/${profileInfo.id}`}>
+                            <h3> {profileInfo.name} </h3>
+                            <h5> {profileInfo.user} </h5>
+                        </Link>
                     </div>
-                    <Tweetear />
                 </nav>
             </header>
             <footer id="rightSideInfo">
                 <div id="rightSideDiv">
-                    <div id="whoToFollow">
+                    { history.location.pathname !== '/connect' && users.length !== 0 && <div id="whoToFollow">
                         <div id="top">
-                            Who to follow
+                            <Link to="/connect" style={{textDecoration: 'none'}} >Who to follow</Link>
                         </div>
                         { !loaded && <div className="loading"></div>}
                         { loaded && <div> { users.map(user => (
@@ -80,9 +103,12 @@ const Navbar = () => {
                                     <h3> {user.name} </h3>
                                     <h5> {user.user} </h5>
                                 </Link>
+                                <div className="buttons">
+                                    <button className="followButton" onClick={() => HandleFollow(user.id, true, currentUser.uid)}>Follow</button>
+                                </div>
                             </div>
                         )) }</div> }
-                    </div>
+                    </div>}
                 </div>
             </footer>
         </div>

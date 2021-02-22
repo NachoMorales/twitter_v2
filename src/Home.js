@@ -2,7 +2,6 @@ import TweetList from './TweetList';
 import { useAuth } from './AuthContext';
 import Tweet from "./Tweet";
 import Navbar from './Navbar'
-import FollowingTweets from './FollowingTweets';
 
 const Home = () => {
     const { currentUser } = useAuth()
@@ -17,8 +16,7 @@ const Home = () => {
                 <div className="tweetear" id="tweetFromHome">
                     <Tweet/>
                 </div>
-                {/* <TweetList user={'all'} /> */}
-                <FollowingTweets filter='home' userId={currentUser.uid} />
+                <TweetList filter='home' userId={currentUser.uid} />
             </div>
         </div>
      );
