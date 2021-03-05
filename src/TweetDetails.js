@@ -78,8 +78,8 @@ const TweetDetails = () => {
                                 <h5 style={{ marginLeft: '15px' }}>{ tweet.createdAt !== undefined && moment(tweet.createdAt.toDate()).format('h:mm · MMM D, YYYY') }</h5>
                             </article>
                             <div className="tweetBottom" style={{justifyContent: "initial" }}>
-                                <Link to={`/`} > {tweet.retweet.length} Retweets</Link>
-                                <Link to={`/`} > {tweet.like.length} Likes</Link>
+                                {tweet.retweet && <Link to={`/`} > {tweet.retweet.length} Retweets</Link>}
+                                {tweet.like && <Link to={`/`} > {tweet.like.length} Likes</Link>}
                             </div>
                             <div className="tweetBottom">
                                 <AnswerTweet {...tweet} />

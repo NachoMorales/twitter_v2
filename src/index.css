@@ -499,6 +499,10 @@ input[type="password"]:focus {
 .todo .rt:hover svg path {
   color: rgb(23, 191, 99);
 }
+.tweet-details .todo h6 {
+  left: 37px;
+  bottom: 27px;
+}
 .tweet-preview a {
   text-decoration: none;
 }

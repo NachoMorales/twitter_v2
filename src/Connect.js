@@ -31,6 +31,7 @@ const Connect = () => {
             database.users
             .where(firebase.firestore.FieldPath.documentId(),'not-in',follows)
             .onSnapshot((querySnapshot) => {
+                docs = []
                 querySnapshot.forEach(function(doc) {
                     docs.push(database.formatDoc(doc))
                 })

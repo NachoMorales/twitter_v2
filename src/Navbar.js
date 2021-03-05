@@ -20,26 +20,30 @@ const Navbar = () => {
 
     function getNotFollows() {
         var follows = profileInfo.following
-        var promises = []
+        // var promises = []
         var docs = []
 
         follows.push(currentUser.uid)
 
-        promises.push(
+        // promises.push(
             database.users
             .where(firebase.firestore.FieldPath.documentId(),'not-in',follows)
             .limit(3)
             .onSnapshot((querySnapshot) => {
+                docs = []
                 querySnapshot.forEach(function(doc) {
                     docs.push(database.formatDoc(doc))
                 })
+                setUsers(docs)
+                setLoaded(true)
             })
-        )
+            
+        // )
 
-        Promise.all(promises).then(() => {
-            setUsers(docs)
-            setLoaded(true)
-        })
+        // Promise.all(promises).then(() => {
+            // setUsers(docs)
+            // setLoaded(true)
+        // })
     }
 
     useEffect(() => {
